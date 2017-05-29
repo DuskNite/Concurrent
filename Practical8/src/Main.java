@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -6,10 +10,17 @@ import java.util.Map;
  */
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         HashMap<String,Integer> hm = new HashMap<>();
-        String st = "I have a red cat I like blue cat cats are nice";
-        String[] split = st.split(" ");
+        BufferedReader file;
+        try {
+             file = new BufferedReader(new FileReader("src/abstract.txt"));
+        } catch (FileNotFoundException e) {
+            System.out.println("Well fuck.");
+            return;
+        }
+        String st = file.readLine();
+        String[] split = st.split("[\\p{Punct}\\s]+");
 
         for(String s:split){
             if(hm.containsKey(s)){
@@ -19,6 +30,7 @@ public class Main {
             else{
                 hm.put(s,1);
             }
+            System.out.print(s + " ");
         }
 
         for(Map.Entry<String, Integer> i : hm.entrySet()){
